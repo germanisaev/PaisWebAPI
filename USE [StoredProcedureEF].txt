@@ -1,0 +1,533 @@
+USE [master]
+GO
+
+/****** Object:  Database [StoredProcedureEF]    Script Date: 08/01/2024 15:41:51 ******/
+CREATE DATABASE [StoredProcedureEF]
+ CONTAINMENT = NONE
+ ON  PRIMARY 
+( NAME = N'StoredProcedureEF', FILENAME = N'C:\Program Files\Microsoft SQL Server\MSSQL15.SQLEXPRESS\MSSQL\DATA\StoredProcedureEF.mdf' , SIZE = 8192KB , MAXSIZE = UNLIMITED, FILEGROWTH = 65536KB )
+ LOG ON 
+( NAME = N'StoredProcedureEF_log', FILENAME = N'C:\Program Files\Microsoft SQL Server\MSSQL15.SQLEXPRESS\MSSQL\DATA\StoredProcedureEF_log.ldf' , SIZE = 8192KB , MAXSIZE = 2048GB , FILEGROWTH = 65536KB )
+ WITH CATALOG_COLLATION = DATABASE_DEFAULT
+GO
+
+IF (1 = FULLTEXTSERVICEPROPERTY('IsFullTextInstalled'))
+begin
+EXEC [StoredProcedureEF].[dbo].[sp_fulltext_database] @action = 'enable'
+end
+GO
+
+ALTER DATABASE [StoredProcedureEF] SET ANSI_NULL_DEFAULT OFF 
+GO
+
+ALTER DATABASE [StoredProcedureEF] SET ANSI_NULLS OFF 
+GO
+
+ALTER DATABASE [StoredProcedureEF] SET ANSI_PADDING OFF 
+GO
+
+ALTER DATABASE [StoredProcedureEF] SET ANSI_WARNINGS OFF 
+GO
+
+ALTER DATABASE [StoredProcedureEF] SET ARITHABORT OFF 
+GO
+
+ALTER DATABASE [StoredProcedureEF] SET AUTO_CLOSE OFF 
+GO
+
+ALTER DATABASE [StoredProcedureEF] SET AUTO_SHRINK OFF 
+GO
+
+ALTER DATABASE [StoredProcedureEF] SET AUTO_UPDATE_STATISTICS ON 
+GO
+
+ALTER DATABASE [StoredProcedureEF] SET CURSOR_CLOSE_ON_COMMIT OFF 
+GO
+
+ALTER DATABASE [StoredProcedureEF] SET CURSOR_DEFAULT  GLOBAL 
+GO
+
+ALTER DATABASE [StoredProcedureEF] SET CONCAT_NULL_YIELDS_NULL OFF 
+GO
+
+ALTER DATABASE [StoredProcedureEF] SET NUMERIC_ROUNDABORT OFF 
+GO
+
+ALTER DATABASE [StoredProcedureEF] SET QUOTED_IDENTIFIER OFF 
+GO
+
+ALTER DATABASE [StoredProcedureEF] SET RECURSIVE_TRIGGERS OFF 
+GO
+
+ALTER DATABASE [StoredProcedureEF] SET  DISABLE_BROKER 
+GO
+
+ALTER DATABASE [StoredProcedureEF] SET AUTO_UPDATE_STATISTICS_ASYNC OFF 
+GO
+
+ALTER DATABASE [StoredProcedureEF] SET DATE_CORRELATION_OPTIMIZATION OFF 
+GO
+
+ALTER DATABASE [StoredProcedureEF] SET TRUSTWORTHY OFF 
+GO
+
+ALTER DATABASE [StoredProcedureEF] SET ALLOW_SNAPSHOT_ISOLATION OFF 
+GO
+
+ALTER DATABASE [StoredProcedureEF] SET PARAMETERIZATION SIMPLE 
+GO
+
+ALTER DATABASE [StoredProcedureEF] SET READ_COMMITTED_SNAPSHOT OFF 
+GO
+
+ALTER DATABASE [StoredProcedureEF] SET HONOR_BROKER_PRIORITY OFF 
+GO
+
+ALTER DATABASE [StoredProcedureEF] SET RECOVERY SIMPLE 
+GO
+
+ALTER DATABASE [StoredProcedureEF] SET  MULTI_USER 
+GO
+
+ALTER DATABASE [StoredProcedureEF] SET PAGE_VERIFY CHECKSUM  
+GO
+
+ALTER DATABASE [StoredProcedureEF] SET DB_CHAINING OFF 
+GO
+
+ALTER DATABASE [StoredProcedureEF] SET FILESTREAM( NON_TRANSACTED_ACCESS = OFF ) 
+GO
+
+ALTER DATABASE [StoredProcedureEF] SET TARGET_RECOVERY_TIME = 60 SECONDS 
+GO
+
+ALTER DATABASE [StoredProcedureEF] SET DELAYED_DURABILITY = DISABLED 
+GO
+
+ALTER DATABASE [StoredProcedureEF] SET ACCELERATED_DATABASE_RECOVERY = OFF  
+GO
+
+ALTER DATABASE [StoredProcedureEF] SET QUERY_STORE = OFF
+GO
+
+ALTER DATABASE [StoredProcedureEF] SET  READ_WRITE 
+GO
+----------------------------------------------------
+USE [StoredProcedureEF]
+GO
+
+/****** Object:  Table [dbo].[Employee]    Script Date: 08/01/2024 15:40:24 ******/
+SET ANSI_NULLS ON
+GO
+
+SET QUOTED_IDENTIFIER ON
+GO
+
+CREATE TABLE [dbo].[Employee](
+	[EmployeeID] [int] IDENTITY(1,1) NOT NULL,
+	[FirstName] [nvarchar](50) NOT NULL,
+	[LastName] [nvarchar](50) NOT NULL,
+	[RoleCompany] [int] NOT NULL,
+	[DepartmentId] [int] NOT NULL,
+	[AgeDate] [int] NOT NULL,
+	[CarOwner] [int] NULL,
+	[UserName] [nvarchar](50) NULL,
+PRIMARY KEY CLUSTERED 
+(
+	[EmployeeID] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+
+-----------------------------------
+USE [StoredProcedureEF]
+GO
+
+/****** Object:  Table [dbo].[Employees]    Script Date: 08/01/2024 15:41:13 ******/
+SET ANSI_NULLS ON
+GO
+
+SET QUOTED_IDENTIFIER ON
+GO
+
+CREATE TABLE [dbo].[Employees](
+	[EmployeeId] [int] IDENTITY(1,1) NOT NULL,
+	[FirstName] [nvarchar](50) NOT NULL,
+	[LastName] [nvarchar](50) NOT NULL,
+	[RoleCompany] [int] NOT NULL,
+	[DepartmentId] [int] NOT NULL,
+	[AgeDate] [int] NOT NULL,
+	[CarOwner] [int] NULL,
+	[UserName] [nvarchar](50) NULL,
+ CONSTRAINT [PK_Employees] PRIMARY KEY CLUSTERED 
+(
+	[EmployeeId] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+-----------------------------------------
+USE [StoredProcedureEF]
+GO
+
+/****** Object:  Table [dbo].[Departments]    Script Date: 08/01/2024 15:42:38 ******/
+SET ANSI_NULLS ON
+GO
+
+SET QUOTED_IDENTIFIER ON
+GO
+
+CREATE TABLE [dbo].[Departments](
+	[DepartmentId] [int] IDENTITY(1,1) NOT NULL,
+	[DepartmentName] [nvarchar](50) NOT NULL,
+PRIMARY KEY CLUSTERED 
+(
+	[DepartmentId] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+----------------------------------------
+USE [StoredProcedureEF]
+GO
+
+/****** Object:  Table [dbo].[RoleCompanies]    Script Date: 08/01/2024 15:43:13 ******/
+SET ANSI_NULLS ON
+GO
+
+SET QUOTED_IDENTIFIER ON
+GO
+
+CREATE TABLE [dbo].[RoleCompanies](
+	[RoleId] [int] IDENTITY(1,1) NOT NULL,
+	[RoleName] [nvarchar](50) NOT NULL,
+PRIMARY KEY CLUSTERED 
+(
+	[RoleId] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+-------------------------------------------
+USE [StoredProcedureEF]
+GO
+
+/****** Object:  StoredProcedure [dbo].[AddNewEmployee]    Script Date: 08/01/2024 15:43:38 ******/
+SET ANSI_NULLS ON
+GO
+
+SET QUOTED_IDENTIFIER ON
+GO
+
+
+
+CREATE   PROCEDURE [dbo].[AddNewEmployee]
+@FirstName [nvarchar](50),
+@LastName [nvarchar](50),
+@RoleCompany int,
+@DepartmentId int,
+@AgeDate tinyint,
+@CarOwner tinyint,
+@UserName [nvarchar](50)
+AS
+BEGIN
+	INSERT INTO dbo.Employee
+		(
+			FirstName,
+			LastName,
+			RoleCompany,
+			DepartmentId,
+			AgeDate,
+			CarOwner,
+			UserName
+		)
+    VALUES
+		(
+			@FirstName,
+			@LastName,
+			@RoleCompany,
+			@DepartmentId,
+			@AgeDate,
+			@CarOwner,
+			@UserName
+		)
+END
+GO
+----------------------------------------
+USE [StoredProcedureEF]
+GO
+
+/****** Object:  StoredProcedure [dbo].[DeleteEmployeeByID]    Script Date: 08/01/2024 15:44:05 ******/
+SET ANSI_NULLS ON
+GO
+
+SET QUOTED_IDENTIFIER ON
+GO
+
+
+CREATE   PROCEDURE [dbo].[DeleteEmployeeByID]
+@EmployeeId int
+AS
+BEGIN
+	DELETE FROM dbo.Employee WHERE EmployeeId = @EmployeeId
+END
+GO
+-------------------------------------
+USE [StoredProcedureEF]
+GO
+
+/****** Object:  StoredProcedure [dbo].[GetDepartmentList]    Script Date: 08/01/2024 15:44:29 ******/
+SET ANSI_NULLS ON
+GO
+
+SET QUOTED_IDENTIFIER ON
+GO
+
+
+CREATE   PROCEDURE [dbo].[GetDepartmentList]
+AS
+BEGIN
+	SELECT * FROM dbo.Departments
+END
+GO
+------------------------------------
+USE [StoredProcedureEF]
+GO
+
+/****** Object:  StoredProcedure [dbo].[GetEmployeeByID]    Script Date: 08/01/2024 15:44:55 ******/
+SET ANSI_NULLS ON
+GO
+
+SET QUOTED_IDENTIFIER ON
+GO
+
+
+CREATE   PROCEDURE [dbo].[GetEmployeeByID]
+@EmployeeId int
+AS
+BEGIN
+	SELECT
+		EmployeeId,
+		FirstName,
+		LastName,
+		RoleCompany,
+		DepartmentId,
+		AgeDate,
+		CarOwner
+	FROM dbo.Employee where EmployeeId = @EmployeeId
+END
+GO
+----------------------------------
+USE [StoredProcedureEF]
+GO
+
+/****** Object:  StoredProcedure [dbo].[GetEmployeeList]    Script Date: 08/01/2024 15:45:28 ******/
+SET ANSI_NULLS ON
+GO
+
+SET QUOTED_IDENTIFIER ON
+GO
+
+
+CREATE   PROCEDURE [dbo].[GetEmployeeList]
+AS
+BEGIN
+	SELECT * FROM dbo.Employee
+	--SELECT e.*, d.DepartmentName, r.RoleName FROM dbo.Employee e
+	--LEFT JOIN dbo.Departments d ON e.DepartmentId = d.DepartmentId
+	--LEFT JOIN dbo.RoleCompanies r ON e.RoleCompany = r.RoleId
+END
+GO
+-----------------------------
+USE [StoredProcedureEF]
+GO
+
+/****** Object:  StoredProcedure [dbo].[GetRoleList]    Script Date: 08/01/2024 15:45:55 ******/
+SET ANSI_NULLS ON
+GO
+
+SET QUOTED_IDENTIFIER ON
+GO
+
+
+CREATE   PROCEDURE [dbo].[GetRoleList]
+AS
+BEGIN
+	SELECT * FROM dbo.RoleCompanies
+END
+GO
+-----------------------------
+USE [StoredProcedureEF]
+GO
+
+/****** Object:  StoredProcedure [dbo].[UpdateEmployee]    Script Date: 08/01/2024 15:46:17 ******/
+SET ANSI_NULLS ON
+GO
+
+SET QUOTED_IDENTIFIER ON
+GO
+
+
+
+CREATE   PROCEDURE [dbo].[UpdateEmployee]
+@EmployeeId int,
+@FirstName [nvarchar](50),
+@LastName [nvarchar](50),
+@RoleCompany int,
+@DepartmentId int,
+@AgeDate tinyint,
+@CarOwner tinyint,
+@UserName [nvarchar](50)
+AS
+BEGIN
+	UPDATE dbo.Employee
+    SET
+		FirstName = @FirstName,
+		LastName = @LastName,
+		RoleCompany = @RoleCompany,
+		DepartmentId = @DepartmentId,
+		AgeDate = @AgeDate,
+		CarOwner = @CarOwner,
+		UserName = @UserName
+	WHERE EmployeeId = @EmployeeId
+END
+GO
+-------------------------------------------
+
+USE [StoredProcedureEF]
+GO
+
+INSERT INTO [dbo].[Departments] ([DepartmentName]) VALUES ('Sales');
+INSERT INTO [dbo].[Departments] ([DepartmentName]) VALUES ('Marketting');
+INSERT INTO [dbo].[Departments] ([DepartmentName]) VALUES ('Testing');
+INSERT INTO [dbo].[Departments] ([DepartmentName]) VALUES ('HR');
+INSERT INTO [dbo].[Departments] ([DepartmentName]) VALUES ('Development');
+INSERT INTO [dbo].[Departments] ([DepartmentName]) VALUES ('Infrastructures');
+INSERT INTO [dbo].[Departments] ([DepartmentName]) VALUES ('Systems Analysis');
+GO
+-------------------------------------------
+
+USE [StoredProcedureEF]
+GO
+
+INSERT INTO [dbo].[RoleCompanies] ([RoleName]) VALUES ('Admin');
+INSERT INTO [dbo].[RoleCompanies] ([RoleName]) VALUES ('Manager');
+INSERT INTO [dbo].[RoleCompanies] ([RoleName]) VALUES ('QA');
+INSERT INTO [dbo].[RoleCompanies] ([RoleName]) VALUES ('Developer');
+
+GO
+-----------------------------------------------
+USE [StoredProcedureEF]
+GO
+
+INSERT INTO [dbo].[Employee]
+           ([FirstName]
+           ,[LastName]
+           ,[RoleCompany]
+           ,[DepartmentId]
+           ,[AgeDate]
+           ,[CarOwner]
+           ,[UserName])
+     VALUES
+           ('german'
+           ,'isaev'
+           ,1
+           ,2
+           ,2
+           ,0
+           ,'user1');
+INSERT INTO [dbo].[Employee]
+           ([FirstName]
+           ,[LastName]
+           ,[RoleCompany]
+           ,[DepartmentId]
+           ,[AgeDate]
+           ,[CarOwner]
+           ,[UserName])
+     VALUES
+           ('david'
+           ,'isaev'
+           ,1
+           ,2
+           ,3
+           ,1
+           ,'user2');
+INSERT INTO [dbo].[Employee]
+           ([FirstName]
+           ,[LastName]
+           ,[RoleCompany]
+           ,[DepartmentId]
+           ,[AgeDate]
+           ,[CarOwner]
+           ,[UserName])
+     VALUES
+           ('ofir'
+           ,'hedry'
+           ,1
+           ,1
+           ,1
+           ,1
+           ,'user3');
+INSERT INTO [dbo].[Employee]
+           ([FirstName]
+           ,[LastName]
+           ,[RoleCompany]
+           ,[DepartmentId]
+           ,[AgeDate]
+           ,[CarOwner]
+           ,[UserName])
+     VALUES
+           ('moran'
+           ,'levin'
+           ,1
+           ,2
+           ,1
+           ,0
+           ,'user4');
+INSERT INTO [dbo].[Employee]
+           ([FirstName]
+           ,[LastName]
+           ,[RoleCompany]
+           ,[DepartmentId]
+           ,[AgeDate]
+           ,[CarOwner]
+           ,[UserName])
+     VALUES
+           ('shimi'
+           ,'cohen'
+           ,1
+           ,1
+           ,2
+           ,1
+           ,'admin');
+INSERT INTO [dbo].[Employee]
+           ([FirstName]
+           ,[LastName]
+           ,[RoleCompany]
+           ,[DepartmentId]
+           ,[AgeDate]
+           ,[CarOwner]
+           ,[UserName])
+     VALUES
+           ('ziv'
+           ,'rubin'
+           ,1
+           ,2
+           ,1
+           ,0
+           ,'user5');
+INSERT INTO [dbo].[Employee]
+           ([FirstName]
+           ,[LastName]
+           ,[RoleCompany]
+           ,[DepartmentId]
+           ,[AgeDate]
+           ,[CarOwner]
+           ,[UserName])
+     VALUES
+           ('shalom'
+           ,'dadon'
+           ,1
+           ,1
+           ,1
+           ,0
+           ,'user6');
+GO
+

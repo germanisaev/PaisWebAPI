@@ -1,0 +1,24 @@
+---- Install packages ----
+
+dotnet add package Microsoft.Data.SqlClient --version 5.1.2
+
+dotnet add package Microsoft.EntityFrameworkCore --version 6.0
+
+dotnet add package Microsoft.EntityFrameworkCore.Tools --version 6.0.0
+
+dotnet add package Microsoft.EntityFrameworkCore.Design --version 6.0.0
+
+dotnet add package Microsoft.EntityFrameworkCore.SqlServer --version 6.0.0
+
+dotnet add package Microsoft.Extensions.Logging --version 6.0.0
+
+
+---- dotnet run ----
+
+dotnet build
+
+dotnet ef migrations add InitialEmployeeEF
+
+dotnet ef database update InitialEmployeeEF
+
+dotnet watch run -v n
